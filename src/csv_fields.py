@@ -147,15 +147,15 @@ CSV_FIELDS = {
     CSV_TITLE_BUSINESS_TERMS_COUNT : CSV_TITLE_BUSINESS_TERMS_COUNT,
     CSV_TITLE_COMPANY_NAMES_MENTIONS : CSV_TITLE_COMPANY_NAMES_MENTIONS,
     CSV_TITLE_VERSION_NUMBERS_PRESENT : CSV_TITLE_VERSION_NUMBERS_PRESENT,
-    CSV_TITLE_FUNDING_MENTIONS : CSV_TITLE_FUNDING_MENTIONS
+    CSV_TITLE_FUNDING_MENTIONS : CSV_TITLE_FUNDING_MENTIONS,
     
     # Title Patterns Features
-    # 'title_is_show_hn': 'title_is_show_hn',
-    # 'title_is_ask_hn': 'title_is_ask_hn',
-    # 'title_is_tell_hn': 'title_is_tell_hn',
-    # 'title_contains_hiring': 'title_contains_hiring',
-    # 'title_contains_release': 'title_contains_release',
-    # 'title_contains_acquisition': 'title_contains_acquisition',
+    CSV_TITLE_IS_SHOW_HN : CSV_TITLE_IS_SHOW_HN,
+    CSV_TITLE_IS_ASK_HN : CSV_TITLE_IS_ASK_HN,
+    CSV_TITLE_IS_TELL_HN : CSV_TITLE_IS_TELL_HN,
+    CSV_TITLE_CONTAINS_HIRING : CSV_TITLE_CONTAINS_HIRING,
+    CSV_TITLE_CONTAINS_RELEASE : CSV_TITLE_CONTAINS_RELEASE,
+    CSV_TITLE_CONTAINS_ACQUISITION : CSV_TITLE_CONTAINS_ACQUISITION,
     
     # Title Engagement Features
     # 'title_question_word_count': 'title_question_word_count',  # how, why, what

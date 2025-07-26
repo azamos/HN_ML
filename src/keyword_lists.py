@@ -65,3 +65,10 @@ TECH_KEYWORDS = [
     'crypto', 'database', 'performance', 'optimization', 'bug', 'feature',
     'release', 'update', 'launch', 'beta', 'alpha', 'open source', 'free'
 ]
+
+SHOW_HN = "Show HN"
+TELL_HN = "Tell HN"
+ASK_HN = "Ask HN"
+HIRING = "hiring"
+RELEASE = "release"
+ACQUISITION = "acquisition"

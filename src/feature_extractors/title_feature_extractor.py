@@ -20,7 +20,14 @@ from src.csv_fields import (
     CSV_TITLE_BUSINESS_TERMS_COUNT,
     CSV_TITLE_COMPANY_NAMES_MENTIONS,
     CSV_TITLE_VERSION_NUMBERS_PRESENT,
-    CSV_TITLE_FUNDING_MENTIONS
+    CSV_TITLE_FUNDING_MENTIONS,
+    # Title Patterns Features
+    CSV_TITLE_IS_SHOW_HN,
+    CSV_TITLE_IS_ASK_HN,
+    CSV_TITLE_IS_TELL_HN,
+    CSV_TITLE_CONTAINS_HIRING,
+    CSV_TITLE_CONTAINS_RELEASE,
+    CSV_TITLE_CONTAINS_ACQUISITION,
 )
 
 import src.keyword_lists as KEYWORDS
@@ -107,5 +114,19 @@ def title_semantics_extractor(title: str) -> Dict[str,Union[int,float,bool]]:
         CSV_TITLE_FUNDING_MENTIONS:funding_terms_count
     }
 
+def title_patterns_extractordef(title: str) -> Dict[str,Union[int,float,bool]]:
+    return {
+        CSV_TITLE_IS_SHOW_HN : KEYWORDS.SHOW_HN in title,
+        CSV_TITLE_IS_ASK_HN : KEYWORDS.ASK_HN in title,
+        CSV_TITLE_IS_TELL_HN : KEYWORDS.TELL_HN in title,
+        CSV_TITLE_CONTAINS_HIRING : KEYWORDS.HIRING in title,
+        CSV_TITLE_CONTAINS_RELEASE : KEYWORDS.RELEASE in title,
+        CSV_TITLE_CONTAINS_ACQUISITION : KEYWORDS.ACQUISITION in title,
+    }
+
 def title_features_extractor(title: str) -> Dict[str,Union[int,float,bool]]:
-    return {**title_structure_extractor(title=title),**title_semantics_extractor(title=title)}
+    return {
+        **title_structure_extractor(title=title),
+        **title_semantics_extractor(title=title),
+        **title_patterns_extractordef(title=title)
+        }
