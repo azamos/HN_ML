@@ -38,15 +38,15 @@ CSV_FIELDS = {
     # 'is_accessible': 'is_accessible',
     
     # Title Structural Features
-    # 'title_char_count': 'title_char_count',
-    # 'title_word_count': 'title_word_count',
-    # 'title_avg_word_length': 'title_avg_word_length',
-    # 'title_case_ratio': 'title_case_ratio',
-    # 'title_all_cap_word_count': 'title_all_cap_word_count',
-    # 'title_has_numbers': 'title_has_numbers',
-    # 'title_has_year': 'title_has_year',
-    # 'title_has_question_mark': 'title_has_question_mark',
-    # 'title_ends_with_punctuation': 'title_ends_with_punctuation',
+    'title_char_count': 'title_char_count',
+    'title_word_count': 'title_word_count',
+    'title_avg_word_length': 'title_avg_word_length',
+    'title_case_ratio': 'title_case_ratio',
+    'title_all_cap_word_count': 'title_all_cap_word_count',
+    'title_has_numbers': 'title_has_numbers',
+    'title_has_year': 'title_has_year',
+    'title_has_question_mark': 'title_has_question_mark',
+    'title_ends_with_punctuation': 'title_ends_with_punctuation',
     
     # Title Semantic Features
     # 'title_keyword_count': 'title_keyword_count',

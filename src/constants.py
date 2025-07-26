@@ -21,16 +21,6 @@ A="a"
 COMMENTS_SPLITTER = "\xa0"
 HTML_TEXT_POINTS = "points"
 
-# Initial field names
-TITLE = "Title"
-URL = "URL"
-POINTS = "Points"
-AUTHOR = "Author"
-NUMBER_OF_COMMENTS = "Number of comments"
-PAGE_NUMBER = "Page number"
-AGE = "Age"
-UNIX_TIMESTAMP = "Unix timstamp"
-
 # Basic Post Features
 CSV_TITLE = "title"
 CSV_URL = "url"

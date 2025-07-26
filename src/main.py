@@ -2,10 +2,12 @@ import sys
 import math
 from .utils import parse_args,validate_args,dbgprint,errprint,build_skip_pages
 from .scraper import local_parser,extract_from_soup,save_to_csv,filter_posts,parser,fetch_page
+from .feature_extractors.title_feature_extractor import title_structure_extractor 
 from .constants import (
     MSG_SCRAPING,START,EOF_MOCK,STATIC_FILE_PATH,
     HTML_SUFFIX,MSG_WRITING_TO_CSV,MSG_DONE,ZERO_VALUE,
-    MAX_SAFES_POSTS, POSTS_PER_PAGE,SOURCE_URL
+    MAX_SAFES_POSTS, POSTS_PER_PAGE,SOURCE_URL,
+    CSV_TITLE
     )
 debug_mode = False
 offline_mode = False
@@ -65,9 +67,16 @@ if __name__ == "__main__":
 
     extracted_data = run_scraper(args,skip_pages)
 
+    expanded_data = []
+    for raw_post_data in extracted_data:
+        post_title = raw_post_data[CSV_TITLE]
+        title_derived_features = title_structure_extractor(post_title)
+        enhanced_post = {**raw_post_data,**title_derived_features}
+        expanded_data.append(enhanced_post)
+
     print(MSG_WRITING_TO_CSV)
     try:
-        save_to_csv(extracted_data)
+        save_to_csv(expanded_data)
     except Exception as e:
         errprint(f"Saving to CSV failed: {e}")
         sys.exit(1)
