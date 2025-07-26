@@ -1,10 +1,12 @@
 import pytest
 from src.constants import (
     READ_MODE,UTF_8,STATIC_FILE_PATH,HTML_SUFFIX,TR,TR_CLASS_NAME,
-    SPAN, TITLE_A_CLASS_NAME,START,POSTS_PER_PAGE,ONE,
-    TITLE,URL,AUTHOR,POINTS,NUMBER_OF_COMMENTS,PAGE_NUMBER,EMPTY_STR,
-    OUTPUT_FILE_PATH,ERR_MISSING_FIELDS,SOURCE_URL
+    SPAN, TITLE_A_CLASS_NAME,START,POSTS_PER_PAGE,ONE,EMPTY_STR,
+    OUTPUT_FILE_PATH,ERR_MISSING_FIELDS,SOURCE_URL,
+    CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
+    CSV_PAGE_NUM,CSV_AGE,CSV_TIMESTAMP,
     )
+from src.csv_fields import get_active_fields
 from src.scraper import parser,filter_posts,extract_from_soup,save_to_csv, fetch_page
 
 def local_parser(file_path):
@@ -33,20 +35,20 @@ def test_scrapper_invalid():
 
 def test_filter_posts_valid():
     p1 = {
-        TITLE:"title1",URL: "test1@test.com",AUTHOR: "author1",POINTS: 100,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title1",CSV_URL: "test1@test.com",CSV_AUTHOR: "author1",CSV_SCORE: 100,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p2 = {
-        TITLE:"title2",URL: "test2@test.com",AUTHOR: "author2",POINTS: 99,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title2",CSV_URL: "test2@test.com",CSV_AUTHOR: "author2",CSV_SCORE: 99,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p3 = {
-        TITLE:"title3",URL: "test3@test.com",AUTHOR: "author3",POINTS: 105,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title3",CSV_URL: "test3@test.com",CSV_AUTHOR: "author3",CSV_SCORE: 105,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p4 = {
-        TITLE:"title4",URL: "test4@test.com",AUTHOR: '',POINTS: '',
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title4",CSV_URL: "test4@test.com",CSV_AUTHOR: '',CSV_SCORE: '',
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     posts = [p1,p2,p3,p4]
     res1 = filter_posts(posts,100,104)
@@ -56,24 +58,25 @@ def test_filter_posts_valid():
 
 def test_filter_posts_invalid():
     posts = [{
-        TITLE:"title1",URL: "test1@test.com",AUTHOR: "author1",
-        POINTS: 'Not a number',NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1}]
+        CSV_TITLE:"title1",CSV_URL: "test1@test.com",CSV_AUTHOR: "author1",
+        CSV_SCORE: 'Not a number',CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,
+        CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118}]
     with pytest.raises(TypeError):
         filter_posts(posts)
 
 def test_extract_from_soup_valid():
     soup = local_parser(STATIC_FILE_PATH+"/"+str(START)+HTML_SUFFIX)
     result = extract_from_soup(soup=soup,p_num=START)
-    expected_keys = {TITLE,URL,AUTHOR,POINTS,NUMBER_OF_COMMENTS,PAGE_NUMBER}
+    expected_keys = {CSV_TITLE,CSV_URL,CSV_AUTHOR,CSV_SCORE,CSV_NUM_COMM,CSV_PAGE_NUM}
     for post_data in result:
         assert expected_keys.issubset(post_data.keys())
-        assert isinstance(post_data[TITLE],str)
-        assert isinstance(post_data[URL],str) and post_data[URL].startswith("http")
-        assert isinstance(post_data[AUTHOR],str)
-        if post_data[POINTS] != EMPTY_STR:
-            assert isinstance(post_data[POINTS],int) and post_data[POINTS]>=0
-        assert isinstance(post_data[NUMBER_OF_COMMENTS],int) and post_data[NUMBER_OF_COMMENTS]>=0
-        assert isinstance(post_data[PAGE_NUMBER],int) and post_data[PAGE_NUMBER]>=1
+        assert isinstance(post_data[CSV_TITLE],str)
+        assert isinstance(post_data[CSV_URL],str) and post_data[CSV_URL].startswith("http")
+        assert isinstance(post_data[CSV_AUTHOR],str)
+        if post_data[CSV_SCORE] != EMPTY_STR:
+            assert isinstance(post_data[CSV_SCORE],int) and post_data[CSV_SCORE]>=0
+        assert isinstance(post_data[CSV_NUM_COMM],int) and post_data[CSV_NUM_COMM]>=0
+        assert isinstance(post_data[CSV_PAGE_NUM],int) and post_data[CSV_PAGE_NUM]>=1
 
 def test_extract_from_soup_invalid():
     reddit_soup = local_parser("./tests/data/invalid/reddit.html")
@@ -85,33 +88,37 @@ def test_extract_from_soup_invalid():
 
 def test_save_to_csv_valid():
     p1 = {
-        TITLE:"title1",URL: "test1@test.com",AUTHOR: "author1",POINTS: 100,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title1",CSV_URL: "test1@test.com",CSV_AUTHOR: "author1",CSV_SCORE: 100,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p2 = {
-        TITLE:"title2",URL: "test2@test.com",AUTHOR: "author2",POINTS: 99,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title2",CSV_URL: "test2@test.com",CSV_AUTHOR: "author2",CSV_SCORE: 99,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p3 = {
-        TITLE:"title3",URL: "test3@test.com",AUTHOR: "author3",POINTS: 105,
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title3",CSV_URL: "test3@test.com",CSV_AUTHOR: "author3",CSV_SCORE: 105,
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     p4 = {
-        TITLE:"title4",URL: "test4@test.com",AUTHOR: '',POINTS: '',
-        NUMBER_OF_COMMENTS: 25,PAGE_NUMBER: 1
+        CSV_TITLE:"title4",CSV_URL: "test4@test.com",CSV_AUTHOR: '',CSV_SCORE: '',
+        CSV_NUM_COMM: 25,CSV_PAGE_NUM: 1,CSV_AGE: 13053.86667,CSV_TIMESTAMP:1752754118
         }
     posts = [p1,p2,p3,p4]
+    headers = get_active_fields()
+    headers_string = ",".join(headers)
     save_to_csv(posts) # saves to OUTPUT_FILE_PATH
     with open(OUTPUT_FILE_PATH,READ_MODE,encoding=UTF_8) as f:
         lines = f.readlines()
         assert len(lines) == 5
-        assert lines[0].strip() == f"{TITLE},{URL},{AUTHOR},{POINTS},{NUMBER_OF_COMMENTS},{PAGE_NUMBER}"
+        assert lines[0].strip() == headers_string
     empty_posts = []
     save_to_csv(empty_posts) # saves to OUTPUT_FILE_PATH
+    
+
     with open(OUTPUT_FILE_PATH,READ_MODE,encoding=UTF_8) as f:
         lines = f.readlines()
         assert len(lines) == 1
-        assert lines[0].strip() == f"{TITLE},{URL},{AUTHOR},{POINTS},{NUMBER_OF_COMMENTS},{PAGE_NUMBER}"
+        assert lines[0].strip() == headers_string
 
 def test_save_to_csv_invalid():
     malformed_post = {"Wrong Key":5,"Another Wrong Key":"test"}
