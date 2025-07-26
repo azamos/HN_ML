@@ -1,7 +1,7 @@
 from typing import Dict,Union
 import re
 from src.utils import dbgprint, errprint
-from src.constants import (
+from src.csv_fields import (
     # Title Structural Features
     CSV_TITLE_CHAR_COUNT,
     CSV_TITLE_WORD_COUNT,

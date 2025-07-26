@@ -7,8 +7,8 @@ from .constants import (
     MSG_SCRAPING,START,EOF_MOCK,STATIC_FILE_PATH,
     HTML_SUFFIX,MSG_WRITING_TO_CSV,MSG_DONE,ZERO_VALUE,
     MAX_SAFES_POSTS, POSTS_PER_PAGE,SOURCE_URL,
-    CSV_TITLE
     )
+from .csv_fields import CSV_TITLE
 debug_mode = False
 offline_mode = False
 

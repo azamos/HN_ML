@@ -1,5 +1,5 @@
 from src.feature_extractors.title_feature_extractor import title_structure_extractor
-from src.constants import (
+from src.csv_fields import (
     # Title Structural Features
     CSV_TITLE_CHAR_COUNT,CSV_TITLE_WORD_COUNT,
     CSV_TITLE_AVG_WORD_LENGTH,CSV_TITLE_CASE_RATIO,

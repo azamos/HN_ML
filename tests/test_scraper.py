@@ -3,10 +3,13 @@ from src.constants import (
     READ_MODE,UTF_8,STATIC_FILE_PATH,HTML_SUFFIX,TR,TR_CLASS_NAME,
     SPAN, TITLE_A_CLASS_NAME,START,POSTS_PER_PAGE,ONE,EMPTY_STR,
     OUTPUT_FILE_PATH,ERR_MISSING_FIELDS,SOURCE_URL,
+
+    )
+from src.csv_fields import (
+    get_active_fields,
     CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
     CSV_PAGE_NUM,CSV_AGE,CSV_TIMESTAMP,
     )
-from src.csv_fields import get_active_fields
 from src.scraper import parser,filter_posts,extract_from_soup,save_to_csv, fetch_page
 
 def local_parser(file_path):

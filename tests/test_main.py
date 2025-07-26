@@ -2,8 +2,9 @@ import argparse
 import pytest
 from src.main import run_scraper
 from src.utils import build_skip_pages
-from src.constants import (
-    EMPTY_STR,CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
+from src.constants import EMPTY_STR
+from src.csv_fields import (
+    CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
     CSV_PAGE_NUM,CSV_AGE,CSV_TIMESTAMP,
     )
 def test_run_scraper_valid():
@@ -32,6 +33,8 @@ def test_run_scraper_valid():
             assert isinstance(post_data[CSV_SCORE],int) and post_data[CSV_SCORE]>=0
         assert isinstance(post_data[CSV_NUM_COMM],int) and post_data[CSV_NUM_COMM]>=0
         assert isinstance(post_data[CSV_PAGE_NUM],int) and post_data[CSV_PAGE_NUM]>=1
+        assert isinstance(post_data[CSV_AGE],float) and post_data[CSV_AGE]>=0.0
+        assert isinstance(int(post_data[CSV_TIMESTAMP]),int) and int(post_data[CSV_TIMESTAMP])>=0.0
 
 def test_run_scraper_invalid():
     args = argparse.Namespace(

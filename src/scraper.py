@@ -7,9 +7,11 @@ from .constants import (
     TITLE_A_CLASS_NAME,A,HREF,EMPTY_STR,USER_CLASS_NAME,LAST_INDEX,COMMENTS_SPLITTER,
     DISCUSS,OUTPUT_FILE_PATH,
     WRITE_MODE,CSV_NEWLINE,LIST_START,ZERO_VALUE,HTML_TEXT_POINTS,SCORE_PREFIX,DEFAULT_TIMEOUT,
+    )
+from .csv_fields import (
     CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
     CSV_PAGE_NUM,CSV_AGE,CSV_TIMESTAMP,
-    )
+)
 from .csv_fields import get_active_fields
 from .utils import dbgprint, errprint, calculate_elapsed_minutes
 
