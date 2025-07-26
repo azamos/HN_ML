@@ -37,7 +37,7 @@ CSV_URL = "url"
 CSV_SCORE = "score"
 CSV_AUTHOR = "author"
 CSV_NUM_COMM = "number_of_comments"
-CSV_P_NUM = "page_number"
+CSV_PAGE_NUM = "page_number"
 CSV_AGE = "age"
 CSV_TIMESTAMP = "timestamp"
 

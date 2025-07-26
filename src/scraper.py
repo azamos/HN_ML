@@ -3,12 +3,14 @@ from bs4 import BeautifulSoup
 import csv
 import os
 from .constants import (
-    UTF_8,HTML_PARSER,POINTS,TR_CLASS_NAME,TR,TR_CLASS_NAME,ID,SPAN,READ_MODE,
+    UTF_8,HTML_PARSER,TR_CLASS_NAME,TR,TR_CLASS_NAME,ID,SPAN,READ_MODE,
     TITLE_A_CLASS_NAME,A,HREF,EMPTY_STR,USER_CLASS_NAME,LAST_INDEX,COMMENTS_SPLITTER,
-    DISCUSS,TITLE,URL,AUTHOR,NUMBER_OF_COMMENTS,PAGE_NUMBER,OUTPUT_FILE_PATH,
+    DISCUSS,OUTPUT_FILE_PATH,
     WRITE_MODE,CSV_NEWLINE,LIST_START,ZERO_VALUE,HTML_TEXT_POINTS,SCORE_PREFIX,DEFAULT_TIMEOUT,
-    AGE,UNIX_TIMESTAMP
+    CSV_TITLE,CSV_URL,CSV_SCORE,CSV_AUTHOR,CSV_NUM_COMM,
+    CSV_PAGE_NUM,CSV_AGE,CSV_TIMESTAMP,
     )
+from .csv_fields import get_active_fields
 from .utils import dbgprint, errprint, calculate_elapsed_minutes
 
 def fetch_page(url):
@@ -32,7 +34,7 @@ def parser(html):
     return BeautifulSoup(html,HTML_PARSER)
 
 def filter_posts(unfiltered_data,min_score,max_score):
-    return [data_entry for data_entry in unfiltered_data if data_entry[POINTS]!=EMPTY_STR and min_score <= data_entry[POINTS] <= max_score]
+    return [data_entry for data_entry in unfiltered_data if data_entry[CSV_SCORE]!=EMPTY_STR and min_score <= data_entry[CSV_SCORE] <= max_score]
 
 def extract_from_soup(soup,p_num):
     extracted_data = []
@@ -80,20 +82,20 @@ def extract_from_soup(soup,p_num):
 
         extracted_data.append(
             {
-            TITLE:title,
-            URL: url,
-            AUTHOR: author_name,
-            POINTS: score,
-            NUMBER_OF_COMMENTS: num_comments,
-            PAGE_NUMBER: p_num,
-            AGE: elapsed_time,
-            UNIX_TIMESTAMP: unix_timestamp
+            CSV_TITLE:title,
+            CSV_URL: url,
+            CSV_AUTHOR: author_name,
+            CSV_SCORE: score,
+            CSV_NUM_COMM: num_comments,
+            CSV_PAGE_NUM: p_num,
+            CSV_AGE: elapsed_time,
+            CSV_TIMESTAMP: unix_timestamp
             })
     return extracted_data
 
 def save_to_csv(posts_list):
     os.makedirs(os.path.dirname(OUTPUT_FILE_PATH),exist_ok=True)
-    fields = [TITLE,URL,AUTHOR,POINTS,NUMBER_OF_COMMENTS,PAGE_NUMBER, AGE, UNIX_TIMESTAMP]
+    fields = get_active_fields()
 
     with open(OUTPUT_FILE_PATH,WRITE_MODE,newline=CSV_NEWLINE,encoding=UTF_8) as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=fields)
